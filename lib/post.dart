@@ -10,6 +10,13 @@ class PostPage extends StatefulWidget {
 class _PostPagePageState extends State<PostPage> {
   TextEditingController _textEditingController = TextEditingController();
 
+  _onSubmitted(String content) {
+    CollectionReference posts = FirebaseFirestore.instance.collection('posts');
+    posts.add({"content": content});
+
+    _textEditingController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,6 +26,7 @@ class _PostPagePageState extends State<PostPage> {
       body: Center(
         child: TextField(
           controller: _textEditingController,
+          onSubmitted: _onSubmitted,
           enabled: true,
           maxLength: 50, // 入力数
           maxLengthEnforced: false, // 入力上限になったときに、文字入力を抑制するか
